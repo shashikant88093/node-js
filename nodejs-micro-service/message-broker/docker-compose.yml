@@ -1,0 +1,25 @@
+services:
+   rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672 : 5672"
+      - "15672 : 15672"
+     
+    environment:
+      - RABBITMQ_DEFAULT_USER : user
+      - RABBITMQ_DEFAULT_PASSWORD : password
+
+    producer:
+       build: ./producer
+       conatiner_name: producer
+       depends_on:
+            - rabbitmq
+       ports:
+           - "8080 : 8080"
+    consumer:
+       build: ./consumer
+       conatiner_name: consumer
+       depends_on:
+            - rabbitmq
+
