@@ -26,7 +26,7 @@ function validator(req, res, next) {
     } catch (error) {
         return res.status(400).json({
             err: true,
-            message: "Schema did not match",
+            message: error.message,
             issues: error?.issues ?? undefined,
         })
     }
