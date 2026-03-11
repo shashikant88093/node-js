@@ -13,9 +13,16 @@ async function connectAndListen() {
             const text = mesage.content.toString()
             console.log(" [X] Received '%s' ", text)
             const seconds = text.split('.').length - 1;
+            const proccessSucceeded = Math.random() > 0.5;
             setTimeout(() => {
-                console.log("[x] Done")
-                chennal.ack(mesage)
+                if (proccessSucceeded) {
+                    console.log(`[x] Succeeded  with message : ${text}`)
+                    chennal.ack(mesage)
+                }else{
+                    console.log(`[x] Unsucceeded  with message : ${text}`)
+
+                }
+
             },
                 seconds * 1000)
         }, { noAck: false })
@@ -24,8 +31,8 @@ async function connectAndListen() {
     catch (err) {
         console.warn(err)
         console.log(err.mesage)
-        if(err.mesage.includes("connect ECONNREFUSED")){
-            setTimeout(()=> connectAndListen(),5000)
+        if (err.mesage.includes("connect ECONNREFUSED")) {
+            setTimeout(() => connectAndListen(), 5000)
         }
 
 
